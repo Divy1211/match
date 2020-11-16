@@ -116,6 +116,8 @@ async function getMatchInfo() {
     for(var i = 0; i < players.length; i++) {
         var name = players[i].name;
         var rating = await getRating(name, l_id);
+        if(leaderboard_id == 0)
+            rating = `REPLACE_ME_1234567890`
         var colour = players[i].color;
         coop[colour]++;
         var team = players[i].team;
@@ -204,6 +206,7 @@ async function getMatchInfo() {
         output += ` on ${cs.substring(0,cs.length-13)}`;
     else
         output += ` on ${map.substring(0,map.length-4)}, ${size}`;
+    output = output.replaceAll(` (REPLACE_ME_1234567890)`, ``)
     document.write(output);
     return output;
 }
