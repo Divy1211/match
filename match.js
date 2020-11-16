@@ -84,6 +84,7 @@ async function getMatchInfo() {
     } catch (error) {
         console.error(error);
     }
+
     var players = match[count-1].players;
     var roomid = match[count-1].match_id;
     var rated = match[count-1].leaderboard_id;
@@ -96,7 +97,18 @@ async function getMatchInfo() {
         teams[i] = ``;
     var game_info = await getGameInfo();
     var civs = game_info.civ;
-    def_map = game_info.map_type[def_map-9].string;
+    var game_type = match[count-1].game_type
+    var game_type_list = ["RM", "RG", "DM", "CS", "", "", "KoTH", "WR", "DW", "TRM", "CTR", "SD", "EW"]
+    game_type = game_type_list[game_type]
+    if(def_map != 59) {
+        map_list = game_info.map_type;
+        for(var gmap of map_list) {
+            if(gmap.id == def_map) {
+                def_map = gmap.string
+                break;
+            }
+        }
+    }
     size = game_info.map_size[size].string;
     var coop = [];
     for(var i = 0; i < 9; i++)
@@ -168,7 +180,7 @@ async function getMatchInfo() {
     var type = ``;
     switch(rated) {
         case 0 :
-            type = `UR`;
+            type = `UR ${game_type}`;
             break;
         case 1 :
             type = `DM`;
@@ -183,14 +195,15 @@ async function getMatchInfo() {
             type = `RM`;
             break;
     }
+    
     output = `Game ID: ${roomid}: ${type}`+output;
     output = output.substring(0, output.length-4);
-    if(map)
-        output += ` on ${map.substring(0,map.length-4)}, ${size}`;
-    else if(cs)
-        output += ` on ${cs.substring(0,cs.length-13)} (cs)`;
-    else
+    if(def_map != 59)
         output += ` on ${def_map}, ${size}`;
+    else if(cs)
+        output += ` on ${cs.substring(0,cs.length-13)}`;
+    else
+        output += ` on ${map.substring(0,map.length-4)}, ${size}`;
     document.write(output);
     return output;
 }
