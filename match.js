@@ -60,10 +60,12 @@ async function getMatchInfo() {
         leaderboard_id = null;
     var l_id = 3;
     var steam_id = `76561198276345085`;
+    if(id)
+        steam_id = id;
+    if(username)
+        steam_id = await getSteamID(username);
     if(leaderboard_id)
         l_id = leaderboard_id;
-    if(username)
-        var steam_id = await getSteamID(username);
     if(steam_id == -1) {
         document.write(`Player Not Found`);
         return;
@@ -71,9 +73,6 @@ async function getMatchInfo() {
     var id = urlparams.get(`id`);
     if(!isNaN(previous) && previous >= 0)
         count = previous+1;
-    if(id)
-     steam_id = id;
-
      var match = ``;
     let url = `https://cors-anywhere.herokuapp.com/`+
     `https://aoe2.net/api/player/matches?game=aoe2de&steam_id=${steam_id}`+
@@ -206,7 +205,7 @@ async function getMatchInfo() {
         output += ` on ${cs.substring(0,cs.length-13)}`;
     else
         output += ` on ${map.substring(0,map.length-4)}, ${size}`;
-    output = output.replaceAll(` (REPLACE_ME_1234567890)`, ``)
+    output = output.split(` (REPLACE_ME_1234567890)`).join(``)
     document.write(output);
     return output;
 }
