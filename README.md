@@ -1,7 +1,7 @@
 # Match Details Command on stream for Age of Empires II: Definitive Edition
 1. This is an API for a getting the match details for streamers for AoE2DE.
 2. The code in this repository is the browser version, and only an example which can't be used on stream to get the match details.
-3. The actual API that can be used is found [here]: https://alian713-twitch-commands.herokuapp.com/match
+3. The API can be used by this link: https://alian713-twitch-commands.herokuapp.com/match
 # Usage
 1. The url for calling the API can take any combination of the following 4 parameters:
   a) name: Name of the player whoes match info is being requested. (If unspecified, defaults to: Alian713)
