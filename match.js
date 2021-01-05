@@ -50,14 +50,23 @@ async function getGameInfo() {
 async function getMatchInfo() {
     var querystring = window.location.search;
     var urlparams = new URLSearchParams(querystring);
-    var previous = parseInt(urlparams.get(`previous`));
-    var count = 1;
-    var username = urlparams.get(`name`);
-    if(username == `null`)
-        username = null;
-    var leaderboard_id = urlparams.get(`ranked`);
-    if(leaderboard_id == `null`)
-        leaderboard_id = null;
+    // var previous = parseInt(urlparams.get(`previous`));
+    // var username = urlparams.get(`name`);
+    // if(username == `null`)
+    //     username = null;
+    // var leaderboard_id = urlparams.get(`ranked`);
+    // if(leaderboard_id == `null`)
+    //     leaderboard_id = null;
+    var pattern = /^\s*(.+?)??(?:(?:^|\s)+(1v1|tg))?(?:(?:^|\s)+(\d+))?\s*$/;
+    var query = urlparams.get(`match_params`)
+    var username = null, leaderboard_id = null, previous = null
+    if(query) {
+        query = query.toLowerCase()
+        var args = query.match(pattern)
+        username = args[1]
+        leaderboard_id = (args[2] == "1v1") ? 3 : (args[2] == "tg") ? 4 : 3
+        previous = (args[3]) ? parseInt(args[3]) : null
+    }
     var l_id = 3;
     var steam_id = `76561198276345085`;
     if(id)
